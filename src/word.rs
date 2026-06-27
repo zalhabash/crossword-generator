@@ -2,8 +2,10 @@ use std::{fmt::Display, ops::Deref, str::FromStr};
 
 use crate::letter::Letter;
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
-pub struct Word {}
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct Word {
+    data: Box<[Letter]>,
+}
 
 impl<const N: usize> From<[Letter; N]> for Word {
     fn from(value: [Letter; N]) -> Self {
