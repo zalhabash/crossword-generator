@@ -9,7 +9,9 @@ pub struct Word {
 
 impl<const N: usize> From<[Letter; N]> for Word {
     fn from(value: [Letter; N]) -> Self {
-        todo!()
+        Word {
+            data: Box::new(value),
+        }
     }
 }
 
