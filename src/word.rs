@@ -51,19 +51,27 @@ impl Display for Word {
 
 impl PartialEq<&str> for Word {
     fn eq(&self, other: &&str) -> bool {
-        if self.data.len() != other.chars().count() {
-            return false;
-        }
-
-        let char_iter = other.chars();
-        let letter_iter = self.data.iter();
-        let both_iter = char_iter.zip(letter_iter);
-        for (char, &letter) in both_iter {
-            if char.try_into() != Ok(letter) {
-                return false;
+        let mut letters = self.data.iter();
+        let mut chars = other.chars();
+        loop {
+            match (letters.next(), chars.next()) {
+                (Some(&letter), Some(char)) if char.try_into() == Ok(letter) => {
+                    continue;
+                }
+                (Some(_letter), Some(_char)) => {
+                    return false;
+                }
+                (Some(_letter), None) => {
+                    return false;
+                }
+                (None, Some(_char)) => {
+                    return false;
+                }
+                (None, None) => {
+                    return true;
+                }
             }
         }
-        return true;
     }
 }
 
